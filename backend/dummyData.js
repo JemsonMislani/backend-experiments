@@ -6,4 +6,4 @@ const products = [
 
 const cart = [];
 
-module.exports(products, cart);
+module.exports = {products, cart};
