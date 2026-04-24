@@ -33,3 +33,17 @@ export const addToCart = async (productId, quantity) => {
         return { cart: []};
     }
 };
+
+export const removeToCart = async (productId) => {
+    try {
+        const rem = await fetch(`${API_URL}/remove-from-cart`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify({productId}),
+        });
+        return rem.json();
+    } catch (error) {
+        console.log('Remove failed:', error)
+        return { cart: []};
+    }
+}

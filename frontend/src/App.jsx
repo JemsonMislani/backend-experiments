@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { getProducts, getCart, addToCart } from "./api";
+import { getProducts, getCart, addToCart, removeToCart } from "./api";
 
 export default function App(){
   const [products, setProducts] = useState([]);
@@ -15,6 +15,11 @@ export default function App(){
     const result = await addToCart(productId, 1);
     setCart(result.cart);
   };
+
+  const removeCart = async (productId) => {
+    const remove = await removeToCart(productId)
+    setCart(remove.cart)
+  }
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0)
 
@@ -36,12 +41,14 @@ export default function App(){
       </div>
       <div>
         <h2>Your cart({totalItems})</h2>
-        {cart.length === 0 ? <p>Empty cart</p> : (cart.map((item, ind) => (
-          <div key={ind}>
+        {cart.length === 0 ? <p>Empty cart</p> : (cart.map((item) => (
+          <div 
+            key={item.id}>
             <p>{item.productId}</p>
             <p>{item.name}</p>
             <p>quantity: {item.quantity}</p>
             <p>Total: {item.price.toFixed(2) * item.quantity}</p>
+            <button onClick={() => removeCart(item.id)}>Remove</button>
             </div>
         )))}
       </div>

@@ -14,7 +14,7 @@ app.get('/cart', (req, res) => res.json(cart));
 
 app.post('/add-to-cart', (req, res) => {
   const { productId, quantity } = req.body;
-  
+
   const product = products.find(p => p.id === productId);
   if(!product) {
     return res.status(404).json({error: 'No product'});
@@ -33,6 +33,16 @@ app.post('/add-to-cart', (req, res) => {
   }
   console.log('cart:', cart);
   res.json({success: true, cart});
+})
+
+app.post('/remove-from-cart', (req, res) => {
+  const {productId} = req.body;
+  const ind = cart.findIndex(i => i.id === productId);
+  if(ind > -1){
+    cart.splice(ind, 1);
+    console.log('Removed:', productId);
+  }
+  res.json ({cart});
 })
 
 const PORT = 3001;
