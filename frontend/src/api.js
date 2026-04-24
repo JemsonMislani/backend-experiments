@@ -19,3 +19,17 @@ export const getCart = async () => {
         return [];
     }
 }
+
+export const addToCart = async (productId, quantity) => {
+    try {
+        const res = await fetch(`${API_URL}/add-to-cart`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify({productId, quantity}),
+        });
+        return res.json();
+    } catch (error) {
+        console.log('Add to cart error:', error)
+        return { cart: []};
+    }
+};
